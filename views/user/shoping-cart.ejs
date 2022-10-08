@@ -1,0 +1,212 @@
+<%- include('../partials/user-header') %>
+
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <div class="breadcrumb__text">
+          <h2>Shopping Cart</h2>
+          <div class="breadcrumb__option">
+            <a href="./index.html">Home</a>
+            <span>Shopping Cart</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+<% if(locals.viewcart?.products?.length>0){ %>
+
+
+<!-- Shoping Cart Section Begin -->
+<div id="allrefresh">
+  <section class="shoping-cart spad">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="shoping__cart__table">
+            <table>
+              <thead>
+                <tr>
+                  <th>#no</th>
+                  <th class="shoping__product">Products</th>
+                  <th>Product Name</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody id="">
+                <% viewcart.products.forEach((showcart,index)=>{ %>
+                <tr id="cartItem-<%= showcart.productId.id %>">
+                  <td><%= index + 1 %></td>
+                  <td class="shoping__cart__showcart">
+                    <img src="/files/<%= showcart.productId.images[0] %>" alt="" width="120" height="150">
+                  </td>
+                  <td>
+                    <h4><%= showcart.name %>
+                  </td>
+                  </h4>
+                  <%if(showcart.offerPrice){%>
+                  <td class="shoping__cart__price">
+                    <del class="text-muted">₹<%= showcart.price %></del>
+                    ₹<%= showcart.offerPrice %>
+                  </td>
+                  <% }else{ %>
+                  <td class="shoping__cart__price">
+                    ₹<%= showcart.price %>
+                  </td>
+                  <% } %>
+                  <td class="shoping__cart__quantity">
+                    <div class="quantity">
+                      <div class="pro-qty">
+                        <span class="dec qtybtn" onclick="addToCart('<%=showcart.productId.id%>','<%=showcart.name%>','<%=showcart.price %>',-1,'<%=showcart?.offerPrice%>')">-</span>
+                        <input id="itemQty-<%= showcart.productId.id %>" type="text" value="<%= showcart.quantity %>">
+                        <span class="inc qtybtn" onclick="addToCart('<%=showcart.productId.id%>','<%=showcart.name%>','<%=showcart.price %>',1,'<%=showcart?.offerPrice%>')">+</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="shoping__cart__total">
+                    <% if(showcart.productId.offerPrice) {%>
+                    ₹<%= (showcart.productId.offerPrice * showcart.quantity).toFixed(2) %>
+                    <% }else {%>
+                    ₹<%= (showcart.price * showcart.quantity).toFixed(2) %>
+                    <% } %>
+                  </td>
+
+                  <td class="shoping__cart__showcart__close">
+                    <button class="border-0"><span id="boot-icon" onclick="deleteItem('<%=showcart.productId.id%>','<%=showcart.quantity%>')" class="bi bi-trash" style="font-size: 1.5rem; color: rgb(255, 0, 0);"></span></button>
+                  </td>
+                </tr>
+                <%  }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="shoping__cart__btns">
+            <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+            <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
+              Upadate Cart</a>
+          </div>
+        </div>
+        <div class="col-lg-6">
+
+          <div class="shoping__continue">
+            <div class="shoping__discount">
+              <h5>Use coupon</h5>
+              <div class="dropdown">
+                <div class="col-lg-6">
+
+                  <form id="couponForm" method="post">
+                    <input type="text" placeholder="Enter your coupon code" id="couponCode" />
+                    <button type="submit" class="site-btn mt-3">APPLY COUPON</button>
+                  </form>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6" id="cartItemtotal">
+          <div class="shoping__checkout">
+            <h5>Cart Total</h5>
+            <ul>
+              <li>Subtotal <span><del>₹<%= viewcart.subTotal.toFixed(2) %></del></span></li>
+              <% let discount = viewcart.subTotal - viewcart.total %>
+              <li>Cart Discount <span>₹<%=discount.toFixed(2)%></span></li>
+
+              <% if(couponCode) {%>
+                <li >CouponCode<span class="text-muted" ><%= couponCode %> </span></li> 
+                <li>CouponDiscount<span class="text-muted"> ₹ <%= couponDiscount %> </span></li>
+                <li>Total <span> ₹ <%= (viewcart.total - couponDiscount) %> </span></li>
+                <% }else {%> 
+      
+              <li>Total <span>₹<%= viewcart.total.toFixed(2) %></span></li>
+              <% } %> 
+            </ul>
+            <a href="/checkout" class="btn btn-primary rounded-pill py-sm-3 px-sm-5 ">PROCEED TO CHECKOUT</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%} else {%>
+  <section class="container" id="elserefresh">
+    <div class="text-center py-5">
+      <img src="" alt="">
+      <div>
+        <p class="h4">There is nothing in your bag. Let's add some showcarts.</p>
+      </div>
+      <a href="/" class="btn btn-primary rounded-pill py-sm-3 px-sm-5">Shop</a>
+    </div>
+  </section>
+  <%}%>
+  </div>
+<!-- Shoping Cart Section End -->
+<%- include('../partials/footer') %>
+
+
+
+
+  </body>
+
+  </html>
+
+  <script>
+    var proQty = $('.pro-qty');
+    proQty.on('click', '.qtybtn', function() {
+      var $button = $(this);
+      var oldValue = $button.parent().find('input').val();
+      if ($button.hasClass('inc')) {
+        var newVal = parseFloat(oldValue) + 1;
+      } else {
+        // Don't allow decrementing below zero
+        if (oldValue > 1) {
+          var newVal = parseFloat(oldValue) - 1;
+        } else {
+          newVal = 1;
+        }
+      }
+      $button.parent().find('input').val(newVal);
+    });
+  </script>
+
+  <script>
+    document.forms["couponForm"].addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const couponCode = document.getElementById("couponCode").value;
+    let response;
+
+      try {
+        response = await axios({
+          method: "post",
+          url: `redeem/${couponCode}`,
+        })
+
+        if (response.status == 200) {
+          $("#cartItemtotal").load(location.href+" #cartItemtotal>*","");
+         const response =Swal.fire(
+            'success!',
+            `You saved money ${response.data.couponDiscount}`,
+            'success'
+           
+          )
+
+
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })
+  </script>

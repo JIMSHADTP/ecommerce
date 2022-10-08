@@ -1,0 +1,103 @@
+<%- include('../partials/user-header') %>
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <div class="breadcrumb__text">
+          <h2>Shopping Cart</h2>
+          <div class="breadcrumb__option">
+            <a href="./index.html">Home</a>
+            <span>Shopping Cart</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<% if(findwish?.myWish?.length>0){%>
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="shoping__cart__table">
+          <table>
+            <thead>
+              <tr>
+                <th>#No</th>
+                <th class="shoping__cart__showcart">Product</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%findwish.myWish.forEach((showwish,index)=>{%>
+              <tr id="wishlistItem-<%= showwish.productId.id %>">
+                <td><%= index + 1 %> </td>
+                <td class="shoping__cart__showcart">
+                  <img src="/files/<%= showwish.productId.images[0]%>"  alt="" width="120" height="150">
+                </td>
+          
+                <td>
+                  <h5><%= showwish.productId.productName %> </h5> 
+                </td>
+                <td class="shoping__cart__price"><del class="text-muted"><%= showwish.productId.price %></del> <%= showwish.productId.offerPrice %> 
+
+                </td>
+                <td>
+                  <span id="boot-icon"  onclick="moveToCart('<%=showwish.productId.id%>','<%=showwish.productId.productName%>','<%=showwish.productId.price%>',1 ,'<%= showwish.productId.offerPrice%>')"class="bi bi-cart-dash" style="font-size: 1.5rem; color: rgb(0, 0, 0);"></span>
+                  <span id="boot-icon" onclick="removeFromWishlist('<%=showwish.productId.id%>','<%=showwish.productId.productName%>')" class="bi bi-trash" style="font-size: 1.5rem; color: rgb(255, 0, 0);"></span>
+
+
+                </td>
+              </tr>
+              <%})%> 
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row ml-4">
+      <div class="col-lg-12">
+        <div class="shoping__cart__btns">
+          <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+          <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
+            Upadate Cart</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%}else{%>
+<section class="container">
+  <div class="text-center py-5">
+    <img src="" alt="">
+    <div>
+      <p class="h4">There is nothing in your bag. Let's add some wishlists.</p>
+    </div>
+    <a href="/" class="btn btn-primary rounded-pill py-sm-3 px-sm-5">Shop</a>
+  </div>
+
+</section>
+<%}%>
+
+<!-- Shoping Cart Section End -->
+<%- include('../partials/footer') %>
+
+</body>
+
+</html>
+
+<script>
+  function moveToCart(id,productName,price,offerPrice){
+    addToCart(id,productName,price,1,offerPrice)
+    removeFromWishlist(id,productName)
+
+  }
+</script>

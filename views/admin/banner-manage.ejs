@@ -1,0 +1,63 @@
+<%- include('../partials/admin-header') %>
+
+<div class="px-lg-5 py-5 mt-5 p-md-5">
+  <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add banner</button>
+  <h2 class="p-3">Banner Management</h2>
+  <div class="jumbotron shadow m-2 bg-white rounded p-4">
+    <table id="admin" class="table table-striped table-bordered table-hover p-4" style="width:100%">
+      <thead>
+        <tr>
+          <th>#No</th>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% findBanner.forEach((banner,index) => { %>
+        <tr>
+          <td><%=index + 1  %> </td>
+          <td><img src="/files/<%=banner.image%>" alt="" height="100" width="200" class="center"></td>
+          <td><%= banner.title %></td>
+          <td class>
+            <% if(banner.isActive) {%>
+            <form action="/admin/blockBanner/<%=banner.id %>" method="post">
+              <button type="submit" class="btn btn-outline-danger">Deactivate</button> .
+            </form>
+            <% }else{%>
+            <form action="/admin/activeBanner/<%= banner.id%>" method="post">
+              <button type="submit" class="btn btn-outline-success">Activate</button>
+            </form>
+            <% } %>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add banner</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/admin/addBanner" method="post" enctype="multipart/form-data">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Title</label>
+              <input type="text" class="form-control" id="recipient-name" name="title">
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Image</label>
+              <input type="file" class="form-control" id="recipient-name" name="image" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

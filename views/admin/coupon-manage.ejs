@@ -1,0 +1,97 @@
+<%- include('../partials/admin-header') %> 
+
+
+<div class="px-lg-5 py-5 mt-5 p-md-5">
+<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add coupon</button>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Coupon</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/admin/addCoupon" method="post" >
+        
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Name</label>
+              <input type="String" class="form-control" name="name" id="recipient-name" required>
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Coupon code</label>
+              <input type="text" class="form-control" name="couponCode" id="recipient-name" required>
+            </div>
+ 
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Discount %</label>
+              <input type="text" class="form-control" name="discount" id="recipient-name" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Coupon Limit</label>
+              <input class="form-control" type="number" name="maxLimit" id="message-text" required>
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Min-Purchase</label>
+              <input type="number" multiple name="minPurchase" class="form-control" id="recipient-name" required>
+            </div>
+            <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Expiry-Date</label>
+                <input type="date" multiple name="expDate" class="form-control" id="expDate" required>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="px-lg-5 ">
+  <h2 class="p-3">Coupon Management</h2>
+    <div class="jumbotron shadow m-2 bg-white rounded p-4">
+     
+      <table id="admin" class="table table-striped table-bordered table-hover p-4" style="width:100%"  >     
+        <thead>
+          <tr>
+            <th>#No</th>
+            <th>Name</th>
+            <th>Coupon Code</th>
+            <th>discount %</th>
+            <th>Coupon Limit</th>
+            <th>Minimum purchase</th>
+            <th>Exp date</th>
+            <th>status</th>
+            <th>Active</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% coupon.forEach((coupon,index)=> {%> 
+          <tr>         
+              <td><%= index + 1 %> </td>
+            <td><%= coupon.name %> </td>
+            <td><%= coupon.couponCode %> </td>
+            <td><%= coupon.discount %> </td>
+            <td><%= coupon.maxLimit %> </td>
+            <td><%= coupon.minPurchase %> </td>
+            <td><%= coupon.expDate.toDateString() %>  </td>
+            <td><span class="badge bg-success"><%= coupon.isActive %> </span></td>
+            <% if(coupon.isActive) {%> 
+              <td>  <form action="/admin/deactivateCoupon/<%= coupon.id %>" method="post">
+                <button type="submit" class="btn btn-outline-danger">DeActivate</button> </td> 
+              </form> 
+              <% }else {%> 
+                <td>  <form action="/admin/activateCoupon/<%= coupon.id %>" method="post">
+                  <button type="submit" class="btn btn-outline-success">Activate</button> </td> 
+                </form> 
+                <% } %>  
+              
+                                  
+          </tr>
+          <% }) %> 
+        </tbody>
+      </table>
+    </div>
+  </div>
