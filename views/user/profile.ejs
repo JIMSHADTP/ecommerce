@@ -4,12 +4,30 @@
   <div class="row">
     <div class="col-md-3 border-right">
       <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-        <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
-        <span class="font-weight-bold">
-          <h4><%= user.name %></h4>
-        </span><span class="text-black-50">
-          <h5><%=user.email %></h5>
-        </span><span> </span>
+        <div class="card">
+          <div class="card-body mb-2">
+            <div class="d-flex flex-column align-items-center text-center">
+              <div class="mt-3">
+                <h4><%= user.name.toUpperCase() %> </h4>
+                <p class="text-secondary mb-1"><%= user.email %> </p>
+              </div>
+            </div>
+            <hr class="my-4">
+            <ul class="list-group list-group-flush">
+             
+              <li class="list-group-item">
+                <a href="/getorder" class="text-dark h6"><i class="fa-solid fa-clipboard-list"></i> My Orders</a>
+              </li>
+              <li class="list-group-item">
+                <a href="#" id="userPassword" class="text-dark h6"><i class="fa-solid fa-key"></i> Change Password</a>
+              </li>
+              <li class="list-group-item">
+                <a href="#" class="text-dark h6" onclick="document.getElementById('logoutForm').submit();"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      
       </div>
     </div>
     <div class="col-md-5 border-right">
@@ -192,4 +210,13 @@
       console.log(error);
     }
   }
+
+
+  document.getElementById("userPassword").addEventListener("click", (event) => {
+    event.preventDefault()
+    document.getElementById("changePassword").style.display = ""
+    document.getElementById("addressForm").style.display = "none"
+    document.getElementById("myAddress").style.display = "none"
+
+  })
 </script>

@@ -1,7 +1,8 @@
 
 const orderModel = require("../models/orderModel");
 const userModel = require("../models/userModel")
-const cartModel = require("../models/cartModel")
+const cartModel = require("../models/cartModel");
+const ProductModel = require("../models/ProductModel");
 
 module.exports = {
   placeOrder: async (req, res, next) => {
@@ -90,23 +91,119 @@ module.exports = {
   },
   getorder : async (req,res) => {
     try {
-      // const userId = req.user.id
-      // const findOrder = await orderModel.find(userId).populate([
-      //   {
-      //     path : "userId",
-      //     model :"User"
-      //   },
-      //   {
-      //     path:"products.productId",
-      //     model : "Product"
-      //   }
-      // ]).exec()
-// console.log(findOrder);
-res.render('user/orders')
+      const userId = req.user.id
+      const myOrders = await orderModel.find({userId}).populate([
+        {
+          path : "userId",
+          model :"User"
+        },
+        {
+          path:"products.productId",
+          model : "Product"
+        }
+      ]).exec()
+
+res.render('user/orders',{myOrders:myOrders})
 
     } catch (error) {
       console.log(error);
       
     }
+  },
+  packOrder: async (req, res) => {
+
+      try {
+          const orderId = req.params.id
+         
+          const myOrder = await orderModel.findById(orderId)
+          if (myOrder.status != "Cancelled") {
+              myOrder.status = "Packed"
+              await myOrder.save()
+              return res.status(201).json({ message: "order Packed" })
+          } else {
+              return res.status(400).json({ message: "cant update status, Item is cancelled" })
+          }
+
+      } catch (err) {
+          return res.status(500).json(err)
+      }
+  },
+  shipOrder: async (req, res) => {
+    try {
+        const orderId = req.params.id
+        const myOrder = await orderModel.findById(orderId)
+        if (myOrder.status != "Cancelled") {
+            myOrder.status = "Shipped"
+            await myOrder.save()
+            return res.status(201).json({ message: "order shipped" })
+        } else {
+            return res.status(400).json({ message: "cant update status, Item is cancelled" })
+        }
+
+    } catch (err) {
+        return res.status(500).json(err)
+    }
+
+},
+outForDelivery: async (req, res) => {
+  try {
+      const orderId = req.params.id
+      const myOrder = await orderModel.findById(orderId)
+      if (myOrder.status != "Cancelled") {
+          myOrder.status = "Out for delivery"
+          await myOrder.save()
+          return res.status(201).json({ message: "out for delivery" })
+      } else {
+          return res.status(400).json({ message: "cant update status, Item is cancelled" })
+      }
+
+  } catch (err) {
+      return res.status(500).json(err)
   }
+
+},
+
+
+deliverPackage: async (req, res) => {
+  try {
+      const orderId = req.params.id
+      const myOrder = await orderModel.findById(orderId)
+      if (myOrder.status != "Cancelled") {
+          myOrder.status = "Delivered"
+          await myOrder.save()
+          return res.status(201).json({ message: "order delivered" })
+      } else {
+          return res.status(400).json({ message: "cant update status, Item is cancelled" })
+      }
+  } catch (err) {
+      return res.status(500).json(err)
+  }
+
+},
+
+cancelOrder: async (req, res) => {
+  try {
+      const orderId = req.params.id
+      const myOrder = await orderModel.findById(orderId)
+
+      if (myOrder.status != "Cancelled" && myOrder.status != "Delivered") {
+          //updating stock for each items in order before cancelling 
+          myOrder.products.forEach(async product => {
+              let myProduct = await ProductModel.findById(product.productId)
+              myProduct.quantity += product.quantity
+              await myProduct.save()
+          })
+          myOrder.status = "Cancelled"
+          await myOrder.save()
+          return res.status(201).json({ message: "order cancelled and stock updated" })
+      } else {
+          return res.status(400).json({ message: "cant update status, Item already cancelled" })
+      }
+
+  } catch (err) {
+      console.log(err)
+      return res.status(500).json(err)
+  }
+},
+
 }

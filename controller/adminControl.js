@@ -6,7 +6,8 @@ const productModel = require('../models/ProductModel')
 const categoryModel = require('../models/categoryModel');
 const bannerModel = require('../models/bannerModel');
 const { off } = require("../app");
-const couponModel = require('../models/couponModel')
+const couponModel = require('../models/couponModel');
+const orderModel = require("../models/orderModel");
 
 
 module.exports = {
@@ -258,25 +259,25 @@ module.exports = {
 
     }
   },
-  coupon : async (req,res) => {
+  coupon: async (req, res) => {
     try {
-    const coupon= await couponModel.find()
+      const coupon = await couponModel.find()
 
-    res.render("admin/coupon-manage",{coupon ,layout: 'layout/usermanage-layout' })
-           
+      res.render("admin/coupon-manage", { coupon, layout: 'layout/usermanage-layout' })
+
     } catch (error) {
       console.log(error);
-      
+
     }
 
   },
 
   addCoupon: async (req, res) => {
-    const {name,couponCode,discount,maxLimit,minPurchase,expDate} = req.body
+    const { name, couponCode, discount, maxLimit, minPurchase, expDate } = req.body
     try {
       await couponModel.create({
         name: name.toUpperCase(),
-        couponCode :couponCode.toUpperCase(),
+        couponCode: couponCode.toUpperCase(),
         discount,
         maxLimit,
         minPurchase,
@@ -290,25 +291,49 @@ module.exports = {
     }
 
   },
-  deActivateCoupon : async (req,res) => {
-    try{
-      await couponModel.findByIdAndUpdate(req.params.id,{
-        isActive : false })
+  deActivateCoupon: async (req, res) => {
+    try {
+      await couponModel.findByIdAndUpdate(req.params.id, {
+        isActive: false
+      })
       res.redirect('back')
-    }catch(err) {
+    } catch (err) {
       console.log(err);
       res.redirect('back')
     }
   },
-  activateCoupon : async (req,res) => {
-    try{
+  activateCoupon: async (req, res) => {
+    try {
       await couponModel.findByIdAndUpdate(req.params.id,
-        {isActive:true})
-        res.redirect('back')
-    }catch(err) {
+        { isActive: true })
+      res.redirect('back')
+    } catch (err) {
       console.log(err);
       res.redirect('back')
     }
+  },
+  orders: async (req, res) => {
+    try {
+
+      const allorders = await orderModel.find().populate([
+        {
+          path: "userId",
+          model: "User"
+        },
+        {
+          path: "products.productId",
+          model: "Product"
+        }
+      ]).sort({ createdAt: -1 }).exec()
+      res.render("admin/order-manage", { allorders: allorders, layout: "layout/usermanage-layout" })
+
+
+    } catch (error) {
+      console.log(error);
+      res.redirect("/admin")
+
+    }
   }
 
+ 
 }

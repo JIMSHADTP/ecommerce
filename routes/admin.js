@@ -9,6 +9,7 @@ const ProductModel = require('../models/ProductModel');
 const userModel = require('../models/userModel');
 const userControl = require('../controller/userControl');
 const { getCategory } = require('../controller/adminControl');
+const orderControl=require('../controller/orderControl')
 
 /* GET users listing. */
 router.get('/', adminControl.adminLogin);
@@ -33,8 +34,12 @@ router.post('/activeBanner/:id',adminControl.bannerActivate)
 router.post('/addCoupon',adminControl.addCoupon)
 router.post('/deactivateCoupon/:id',adminControl.deActivateCoupon)
 router.post('/activateCoupon/:id',adminControl.activateCoupon)
-
+router.get('/order',adminControl.orders)
   
-
+router.put("/packOrder/:id",orderControl.packOrder)
+router.put("/shipOrder/:id", orderControl.shipOrder)
+router.put("/outForDelivery/:id", orderControl.outForDelivery)
+router.put("/deliverPackage/:id", orderControl.deliverPackage)
+router.put("/cancelOrder/:id", orderControl.cancelOrder)
 
 module.exports = router;

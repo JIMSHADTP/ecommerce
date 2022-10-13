@@ -67,5 +67,8 @@ router.post("/payment/verify/:orderId",paymentControl.verifyPayment)
 router.post("/payment/:id/refund",paymentControl.refund)
 
 
+router.put("/cancelOrder/:id", orderControl.cancelOrder)
+
+
 
 module.exports = router;

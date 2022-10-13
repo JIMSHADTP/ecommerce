@@ -1,0 +1,95 @@
+<%- include('../partials/admin-header') %> 
+
+
+<div class="px-lg-5 py-5 mt-5 p-md-5">
+
+</div>
+<div class="px-lg-5 ">
+  <h2 class="p-3">Order Management</h2>
+    <div class="jumbotron shadow m-2 bg-white rounded p-4">
+     
+      <table id="admin" class="table table-striped table-bordered table-hover p-4" style="width:100%"  >     
+        <thead>
+          <tr>
+            <th>orderId</th>
+            <th>User</th>
+            <th>Address</th>
+            <th>Products</th>
+            <th>Total Price</th>
+            <th>Order Date</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+           
+            <% allorders.forEach(order => { %> 
+          <tr id="order-<%= order.id %> ">         
+              <td><a href="/admin/orders/<%= order.id %>" class="link-dark"><%=order.id%></a></td>
+            <td><%= order.userId.email %>  </td>
+            <td>
+                <%= order.deliveryAddress.firstName %> 
+                <%= order.deliveryAddress.lastName %> 
+                <%= order.deliveryAddress.address %> 
+                <%= order.deliveryAddress.city %> 
+                <%= order.deliveryAddress.state %> 
+                <%= order.deliveryAddress.pincode %> 
+            </td>
+            <td>
+                <% order.products.forEach(product => { %>
+                    <%= product.name %> x <%= product.quantity %>
+                    <% }) %>    
+            </td>
+
+            <td> <%= order.total %> </td>
+            <td><%=order.createdAt.toDateString() %> </td>
+            <% if(order.paymentType == "cod" ){%>
+                <td><span class="badge" style="background-color:rgb(177, 39, 85) ;">COD</span></td>
+                <%}else{%>
+                    <td><span class="badge bg-success">Online</span></td>
+                    <% } %>
+                    <td><span class="badge order-status" style="background-color:rgb(4, 4, 4) ;" id="status-<%= order.id%>"><%=order.status %> </span></td>
+                    <td id="action-<%= order.id %>" class="text-center" >
+                        <% if(order.status==="pending"){%>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button class="btn btn-sm btn-outline-dark" onclick="packOrder('<%=order.id%>')"><i class="fa-solid fa-boxes-packing"></i> Pack</button>
+                          <button class="btn btn-sm btn-outline-danger" onclick="cancelOrder('<%=order.id%>')"><i class="fa-solid fa-ban"></i> Cancel</button>
+                        </div>
+                        <% }else if(order.status==="Packed"){ %>
+                        <button class="btn-outline-danger" onclick="shipOrder('<%=order.id%>')"><i class="fa-solid fa-truck-fast"></i> Ship Order</button>
+                        <% }else if(order.status==="Shipped"){ %>
+                        <button class="btn btn-sm btn-outline-dark" onclick="outForDelivery('<%=order.id%>')"><i class="fa-solid fa-house-chimney"></i> Out For Delivery</button>
+                        <% }else if(order.status==="Out for delivery"){ %>
+                        <button class="btn btn-sm btn-outline-dark" onclick="deliverPackage('<%=order.id%>')"><i class="fa-solid fa-thumbs-up"></i> Deliver Package</button>
+                        <% }else if(order.status==="Delivered"){%>
+                        <button class="btn btn-outline-dark" disabled><i class="fa-solid fa-thumbs-up"></i>Delivered</button>
+                        <%}else{%>
+                        <button class="btn btn-outline-dark" disabled><i class="fa-solid fa-ban"></i>l</button>
+                        <% } %>
+                      </td>
+          </tr>
+         
+          <% }) %> 
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <script src="/js/order-management.js"></script>
+
+  <SCript>
+    let date = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+
+    function exportCsv() {
+      myTable.export({
+        type: "csv",
+        skipColumn:[8],
+        filename: "order_report" + " " + date
+      });
+    }
+  </SCript>
