@@ -76,7 +76,7 @@ async function removeFromWishlist(id,productName){
         $(".wishlist-item-count").html(indexCount)
   
     }
-
+    window.location.reload()
   }catch(err){
     console.error(err);
   }

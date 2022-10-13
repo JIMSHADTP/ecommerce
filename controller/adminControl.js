@@ -14,13 +14,54 @@ module.exports = {
   adminLogin: (req, res, next) => {
     try {
       if (req.user?.isAdmin) {
-        res.render('admin/admin-home');
+        next()
       }
     } catch (error) {
       console.log(error);
       res.render("error")
     }
   },
+  
+  home: async (req, res) => {
+    try {
+        const errorMessage = req.flash("message")
+        const userCount = await userModel.find({ isAdmin: false }).countDocuments()
+        const orderStatusPending = await orderModel.find({ status: "Pending" }).countDocuments()
+        const orderStatusDelivered = await orderModel.find({ status: "Delivered" }).countDocuments()
+        const totalSale = await orderModel.aggregate([
+            {
+                $match: {
+                    status: { $ne: "Cancelled" }
+                }
+            },
+            {
+                $group: {
+                    _id: "",
+                    "totalSale": { $sum: "$total" },
+                },
+            }, {
+                $project: {
+                    _id: 0,
+                    "totalAmount": "$totalSale"
+                }
+            }
+        ])
+
+        const orderStatusCount = [orderStatusPending, orderStatusDelivered, totalSale[0]?.totalAmount]
+        res.render("admin/admin-home", {
+            errorMessage: errorMessage,
+            layout: "layout/usermanage-layout",
+            orderStatusCount: orderStatusCount,
+            userCount: userCount,
+        })
+    } catch (err) {
+        console.log(err.message)
+        res.redirect("/")
+
+    }
+}
+  
+  ,
   adminLogout: (req, res, next) => {
     try {
       if (req.user?.isAdmin) {

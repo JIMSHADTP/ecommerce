@@ -28,6 +28,7 @@ async function deleteItem(productId, cartCount) {
         } else {
 
         } toastr.error('cart item deleted')
+        window.location.reload()
         $(`#cartItem-${productId}`).load(location.href + ` #cartItem-${productId}>*`, "");
     } catch (error) {
         console.error(error)
