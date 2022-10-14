@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 module.exports = {
     mongoose : async (req,res,next) => {
-        const mongoURI = "mongodb://localhost:27017/ripeify";
+        const mongoURI = process.env.MONGO_URI;
 mongoose
   .connect(mongoURI)
   .then((res) => {
