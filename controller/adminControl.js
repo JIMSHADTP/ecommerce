@@ -283,7 +283,16 @@ module.exports = {
     }
   },
   editproduct: async (req, res) => {
+    let product
     try {
+      // product = await productModel.findById(req.params.id)
+      // const price = parseFloat(req.body.price)
+      // const discount = req.body.discount ? parseFloat(req.body.discount) : null
+      // const offerPrice = req.body.discount ? price - ((price / 100) * discount) : null
+      // const isFeatured = req.body.isFeatured == 'on' ? true : false
+      //  const oldProductImages = product.images
+      //  const productImages = req.files.length > 0 ? req.files.map((img) => img.filename) : oldProductImages
+
       await productModel.findByIdAndUpdate(req.params.id, {
         productName: req.body.productName,
         quantity: req.body.quantity,
@@ -293,6 +302,11 @@ module.exports = {
         discription: req.body.discription,
         images: req.body.productImages
       })
+      if (req.files.length > 0 ){
+        oldProductImages.forEach(async (Image) => {
+          await fs.unlink("./public/files/" + Image)
+        })
+      }
       res.redirect('back')
     } catch (error) {
       console.log(error);

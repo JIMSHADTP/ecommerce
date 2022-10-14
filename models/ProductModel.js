@@ -36,7 +36,11 @@ const productSchema = new mongoose.Schema({
     discription: {
         type: String,
         required: true
-    }
+    },
+    // isFeatured : {
+    //     type : Boolean,
+    //     required : false
+    // }
 
 },{timestamps:true})
 module.exports = mongoose.model('Product', productSchema)
