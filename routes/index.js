@@ -42,7 +42,7 @@ router.post('/resendOtp',async (req,res) => {
   await sendOtp(req,res)
 })
 
-router.post("/validateOtp", otpVerification)
+// router.post("/validateOtp", otpVerification)
 router.post("/logout", userControl.userLogout)
 router.get('/productPage', productControl.pageProduct)
 router.get('/viewProduct/:id', productControl.viewProduct)
