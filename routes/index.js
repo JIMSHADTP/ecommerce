@@ -65,6 +65,7 @@ router.get('/getorder',orderControl.getorder)
 router.post("/payment/orderId",paymentControl.generateOrder)
 router.post("/payment/verify/:orderId",paymentControl.verifyPayment)
 router.post("/payment/:id/refund",paymentControl.refund)
+router.get('/showcategorywise',productControl.showCatogorywise)
 
 
 router.put("/cancelOrder/:id", orderControl.cancelOrder)

@@ -255,5 +255,15 @@ module.exports = {
       console.log(error);
 
     }
+  },
+
+  showCatogorywise : async (req,res) => {
+   try {
+    const categoryWise = await productModel.find({category:req.params.id})
+    res.render('home')
+   } catch (error) {
+    console.log(err)
+    
+   }
   }
 }

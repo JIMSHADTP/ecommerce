@@ -14,6 +14,7 @@ const orderControl=require('../controller/orderControl')
 /* GET users listing. */
 router.get('/', adminControl.adminLogin,adminControl.home);
 router.get('/', adminControl.adminLogout);
+router.get("/getGraphDetails",adminControl.getGraphDetails)
 router.get('/getuserdata', adminControl.getUserdata)
 router.get('/getcategory', adminControl.getCategory,)
 router.get('/product', adminControl.getProduct)
