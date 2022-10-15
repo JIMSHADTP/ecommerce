@@ -27,7 +27,7 @@
               <span class="text-muted small">on  <%= order.createdAt.toDateString() %></span>
             </div>
             <div>
-              <a class="btn btn-sm btn-outline-dark" href="/user/myOrders/<%= order.id %>">View order details</a>
+
               <% if(order.status !== "Delivered" && order.status !== "Cancelled"){ %>
               <button class="btn btn-sm btn-outline-danger" onclick="sweetConfirm('<%=order.id%>')" type="button"><i class="bi bi-trash"></i></button>
               <%  } %>

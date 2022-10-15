@@ -43,10 +43,11 @@
 
               <tbody id="">
                 <% viewcart.products.forEach((showcart,index)=>{ %>
+              
                 <tr id="cartItem-<%= showcart.productId.id %>">
                   <td><%= index + 1 %></td>
                   <td class="shoping__cart__showcart">
-                    <img src="/files/<%= showcart.productId.images[0] %>" alt="" width="120" height="150">
+                    <img src="/files/<%= showcart.productId.images[0] %>" alt="" width="200" height="150">
                   </td>
                   <td>
                     <h4><%= showcart.name %>
