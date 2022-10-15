@@ -121,6 +121,7 @@ async function deliverPackage(orderId) {
 }
 async function cancelOrder(orderId) {
     try {
+        console.log(orderId)
         let result = await Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",

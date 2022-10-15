@@ -37,7 +37,7 @@ async function checkout(data) {
       console.error(err)
       await Swal.fire({
           icon: 'error',
-          title: 'Oops... aadqarsh',
+          title: 'Oops...',
           text: 'Something went wrong!',
           confirmButtonColor: '#273952',
           width: "25em",
