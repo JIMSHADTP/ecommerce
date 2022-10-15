@@ -42,8 +42,9 @@
               </thead>
 
               <tbody id="">
+               
                 <% viewcart.products.forEach((showcart,index)=>{ %>
-              
+             
                 <tr id="cartItem-<%= showcart.productId.id %>">
                   <td><%= index + 1 %></td>
                   <td class="shoping__cart__showcart">
@@ -53,10 +54,10 @@
                     <h4><%= showcart.name %>
                   </td>
                   </h4>
-                  <%if(showcart.offerPrice){%>
+                  <%if(showcart.productId.offerPrice){%>
                   <td class="shoping__cart__price">
-                    <del class="text-muted">₹<%= showcart.price %></del>
-                    ₹<%= showcart.offerPrice %>
+                    <del class="text-muted">₹<%= showcart.price%></del>
+                    ₹<%= showcart.productId.offerPrice  %>
                   </td>
                   <% }else{ %>
                   <td class="shoping__cart__price">
@@ -131,7 +132,7 @@
                 <li>CouponDiscount<span class="text-muted"> ₹ <%= couponDiscount %> </span></li>
                 <li>Total <span> ₹ <%= (viewcart.total - couponDiscount) %> </span></li>
                 <% }else {%> 
-      
+                  <% console.log(viewcart) %> 
               <li>Total <span>₹<%= viewcart.total.toFixed(2) %></span></li>
               <% } %> 
             </ul>

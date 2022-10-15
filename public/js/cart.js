@@ -43,6 +43,7 @@ async function addToCart(productId, productName, price, quantity, offerPrice) {
     }
     else {
         try {
+         
             const response = await axios({
                 method: "post",
                 url: `/addtocart/${productId}`,

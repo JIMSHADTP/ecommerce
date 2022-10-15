@@ -55,7 +55,7 @@
             <ul>
               <li><b>Availability</b> <span>In Stock</span></li>
               <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
-              <li><b>Weight</b> <span>0.5 kg</span></li>
+         
             </ul>
 
 
@@ -88,8 +88,8 @@
             <div class="tab-pane active" id="tabs-1" role="tabpanel">
               <div class="product__details__tab__desc">
                 <h6>Products Infomation</h6>
-                <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                  a.</p>
+                <p><%= oneProduct.discription %> 
+                  </p>
               </div>
             </div>
             <div class="tab-pane" id="tabs-2" role="tabpanel">
@@ -128,7 +128,7 @@
       <% relateProduct.forEach((relateProduct) => { %>
       <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="product__item">
-          <img class="product__item__pic set-bg" src="/files/<%= relateProduct.images[0]%>">
+          <img class="product__item__pic set-bg" src="/files/<%= relateProduct.images[0]%>" width="500">
           <ul class="product__item__pic__hover">
             <!-- <li><a href="#"><i class="fa fa-heart"></i></a></li>
             <li><a href="#"><i class="fa fa-retweet"></i></a></li>

@@ -38,8 +38,7 @@ async function addToWishlist(id,productName){
         // toastr.options={"positionClass" : "toast-bottom-center"}
         toastr.success("Item added to wishlist")
 
-        $(`#product`).load(location.href + ` #product>*`, "");
-        res.redirect('/')
+   
   
        
       }   

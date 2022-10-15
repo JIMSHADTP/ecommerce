@@ -40,15 +40,23 @@
               <tr id="wishlistItem-<%= showwish.productId.id %>">
                 <td><%= index + 1 %> </td>
                 <td class="shoping__cart__showcart">
-                  <img src="/files/<%= showwish.productId.images[0]%>"  alt="" width="120" height="150">
+                  <img src="/files/<%= showwish.productId.images[0]%>"  alt="" width="220" height="150">
                 </td>
           
                 <td>
                   <h5><%= showwish.productId.productName %> </h5> 
                 </td>
-                <td class="shoping__cart__price"><del class="text-muted"><%= showwish.productId.price %></del> <%= showwish.productId.offerPrice %> 
-
-                </td>
+              
+                <%if(showwish.productId.offerPrice){%>
+                  <td class="shoping__cart__price">
+                    <del class="text-muted">₹<%= showwish.productId.price %></del>
+                    ₹<%= showwish.productId.offerPrice %>
+                  </td>
+                  <% }else{ %>
+                  <td class="shoping__cart__price">
+                    ₹<%= showwish.price %>
+                  </td>
+                  <% } %>
                 <td>
                   <span id="boot-icon"  onclick="moveToCart('<%=showwish.productId.id%>','<%=showwish.productId.productName%>','<%=showwish.productId.price%>',1 ,'<%= showwish.productId.offerPrice%>')"class="bi bi-cart-dash" style="font-size: 1.5rem; color: rgb(0, 0, 0);"></span>
                   <span id="boot-icon" onclick="removeFromWishlist('<%=showwish.productId.id%>','<%=showwish.productId.productName%>')" class="bi bi-trash" style="font-size: 1.5rem; color: rgb(255, 0, 0);"></span>
