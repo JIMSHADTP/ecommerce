@@ -168,7 +168,7 @@
   let amount = couponDiscount ? (cartTotal - couponDiscount) * 100 : cartTotal * 100
   amount = parseInt(amount)
   let data
-  console.log(amount)
+
   $(document).ready(async function() {
     try {
       const settings = await axios({
@@ -180,8 +180,7 @@
         
       });
       orderId = settings.data.orderId;
-      console.log(orderId)
-      console.log("2222222222");
+
     } catch (err) {
       console.error(err)
     }

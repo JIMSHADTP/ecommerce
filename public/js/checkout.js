@@ -5,7 +5,7 @@ document.forms["checkoutForm"].addEventListener("submit", async (event) => {
   data = new URLSearchParams(new FormData(event.target))
   if (paymentType == "cod") {
       
-      console.log(data);
+
       checkout(data)
 
   } else {

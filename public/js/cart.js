@@ -19,7 +19,7 @@ async function deleteItem(productId, cartCount) {
             }
         })
         let itemCount = Number($(".cart-item-count").html())
-        console.log(cartCount);
+       
         itemCount -= cartCount
         if (itemCount != 0) {
             document.getElementById(`cartItem-${productId}`).remove()
@@ -54,7 +54,7 @@ async function addToCart(productId, productName, price, quantity, offerPrice) {
                     offerPrice: Number.parseFloat(offerPrice),
                 }
             })
-            console.log(response)
+       
             if (response.status == 200) {
                 toastr.options = { "positionClass": "toastr-bottom-right" }
                 toastr.error('this product is out of stock')
@@ -78,7 +78,7 @@ async function addToCart(productId, productName, price, quantity, offerPrice) {
 }
 
 function cart(id, name, price, offerPrice) {
-console.log("kkkkkkkk");
+
     let quantity = document.getElementById("itemQty").value
     addToCart(id, name, price, quantity, offerPrice)
 

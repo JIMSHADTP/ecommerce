@@ -132,7 +132,7 @@
                 <li>CouponDiscount<span class="text-muted"> ₹ <%= couponDiscount %> </span></li>
                 <li>Total <span> ₹ <%= (viewcart.total - couponDiscount) %> </span></li>
                 <% }else {%> 
-                  <% console.log(viewcart) %> 
+
               <li>Total <span>₹<%= viewcart.total.toFixed(2) %></span></li>
               <% } %> 
             </ul>
